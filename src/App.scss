@@ -28,7 +28,7 @@
 #display {
     width: 100vw;
     min-height: 150px;
-    height: 25vh;
+    height: 25dvh;
     max-width: 425px;
     display: flex;
     flex-direction: column;
@@ -136,7 +136,7 @@
         height: 80%;
     }
 
-    height: 75vh;
+    height: 75dvh;
     width: 100%;
     max-width: 425px;
     background-color: #D0D0D0;
@@ -169,7 +169,7 @@
     #calculator {
         border-radius: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         max-height: none;
         max-width: none;
     }

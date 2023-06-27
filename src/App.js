@@ -21,7 +21,7 @@ function App() {
       : input.display.concat(event.target.value)
     })
     setOutput("");
-    //console.log(input.display);
+    //console.log(input.num, input.display);
   }
   const handleComma = (event)=> {
     setInput({
@@ -29,7 +29,7 @@ function App() {
       num: !input.num.includes(".")? input.num.concat(event.target.value): input.num,
       display: !input.num.includes(".")? input.display.concat(event.target.value): input.display
     })
-    //console.log(input.display);
+    //console.log(input.num, input.display);
   }
   const handleSign=(event)=> {
     setInput({
@@ -40,26 +40,16 @@ function App() {
       display:output !== ""? String(output).concat(event.target.value) :input.display !== "0"? input.display.concat(event.target.value): input.display
     })
     setOutput("");
-    //console.log(input.display);
+    //console.log(input.num, input.sign, input.display);
   }
   const clearDisplay = () => {
     setInput({num:"0", sign:null, display:"0"});
     setOutput("");
     //console.log(input.display);
   }
-  const removeUnecesssaryOperators = (list) => {
-    let values = list.join("");
-    let newValues;
-    for (let i=0; i < values.length; i++) {
-      (values[i]==="+"||values[i]==="-"||values[i]==="*"||values[i]==="/") && values[i+1] !== "-"? /*alert(values[i]) &&*/ values.replace(i, ''): console.log(false)
-    }
-    console.log(values);
-    //return values;
-  }
+
   const evaluateInput = () => { 
     let values = input.display.split(/([+\-*/])/);
-    //removeUnecesssaryOperators(values);
-    console.log(values)
     let result;
     for (let i=0; i< values.length;i++) {
       if(i===0) {
@@ -83,12 +73,8 @@ function App() {
         }
       }
     }
-    //console.log(values, result);
+    console.log(values, result);
     setOutput(result);
-    setInput({
-      ...input,
-      display: input.display.concat("=",result)
-    })
   }
 
   return (
