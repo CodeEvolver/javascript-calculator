@@ -1,7 +1,7 @@
 import './App.scss';
 import Display from './Components/display.js';
 import Keys from './Components/keys.js';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 function App() {
   const [input, setInput] = useState({
@@ -21,7 +21,6 @@ function App() {
       : input.display.concat(event.target.value)
     })
     setOutput("");
-    //console.log(input.num, input.display);
   }
   const handleComma = (event)=> {
     setInput({
@@ -29,7 +28,7 @@ function App() {
       num: !input.num.includes(".")? input.num.concat(event.target.value): input.num,
       display: !input.num.includes(".")? input.display.concat(event.target.value): input.display
     })
-    //console.log(input.num, input.display);
+    
   }
   const handleSign=(event)=> {
     setInput({
@@ -49,33 +48,38 @@ function App() {
   }
 
   const evaluateInput = () => { 
-    let values = input.display.split(/([+\-*/])/);
+    let values = input.display.split(/([+\-*/])/).filter((e)=> e !== '');
     let result;
+    
     for (let i=0; i< values.length;i++) {
       if(i===0) {
         result= Number(values[i]);
       } else {
-        let isDigit = /\d/.test(values[i+1]);
-        let nextIsDigit = /\d/.test(values[i+2]);
+        let isDigit = Number(values[i+1]);
+        let nextIsDigit = Number(values[i+2]);
         switch(values[i]) {
           case "+":
-            result += Number(isDigit? values[i+1]: values[i+1] === "-" && nextIsDigit? -values[i+2]: 0);
+            result += Number(isDigit? values[i+1]: values[i+1] === "-" && nextIsDigit? Number(-values[i+2]): 0);
             break;
           case "/":
-            result /= Number(isDigit? values[i+1]: values[i+1] === "-" && nextIsDigit? -values[i+2]: 1);
+            result /= Number(isDigit? values[i+1]: values[i+1] === "-" && nextIsDigit? Number(-values[i+2]): 1);
             break;          
           case "*":
-            result *= Number(isDigit? values[i+1] : values[i+1] === "-" && nextIsDigit? -values[i+2]: 1);
+            result *= Number(isDigit? values[i+1] : values[i+1] === "-" && nextIsDigit? Number(-values[i+2]): 1);
             break;
            case "-":
-            result -= Number(isDigit? values[i+1]: values[i+1] === "-" && nextIsDigit? -values[i+2]: 0);
+            result -= Number(isDigit && Number(values[i-1])? values[i+1]: values[i+1] === "-" && nextIsDigit? Number(-values[i+2]): 0);
             break;
         }
       }
     }
-    console.log(values, result);
+    //console.log(values, result);
     setOutput(result);
   }
+
+  /*useEffect(
+    () => console.log(input.num, input.sign, input.display), [input]
+  )*/
 
   return (
     <div id="web">
