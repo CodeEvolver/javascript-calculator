@@ -4,7 +4,7 @@
 function Display ({input, output}) {
     return (
         <div id="display">
-            <h2 id="input">{output? output: input}</h2>
+            <h2 id={output? "output": "input"}>{output? output: input}</h2>
         </div>
     )
 }

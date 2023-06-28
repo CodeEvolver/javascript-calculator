@@ -1,7 +1,7 @@
 import './App.scss';
 import Display from './Components/display.js';
 import Keys from './Components/keys.js';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 function App() {
   const [input, setInput] = useState({
@@ -15,6 +15,7 @@ function App() {
     setInput({
       ...input,
       num: input.num==="0" && event.target.className ==="num"? event.target.value
+      : output !== ""? event.target.value
       : input.num.concat(event.target.value),
       display:output !== ""? event.target.value
       : input.display==="0" && event.target.className ==="num"? event.target.value
@@ -39,12 +40,10 @@ function App() {
       display:output !== ""? String(output).concat(event.target.value) :input.display !== "0"? input.display.concat(event.target.value): input.display
     })
     setOutput("");
-    //console.log(input.num, input.sign, input.display);
   }
   const clearDisplay = () => {
     setInput({num:"0", sign:null, display:"0"});
     setOutput("");
-    //console.log(input.display);
   }
 
   const evaluateInput = () => { 
@@ -52,8 +51,10 @@ function App() {
     let result;
     
     for (let i=0; i< values.length;i++) {
-      if(i===0) {
+      if(i===0 && Number(values[i])) {
         result= Number(values[i]);
+      } else if(i===0 && values[i]==="-"){
+        result= Number(-values[i+1]);
       } else {
         let isDigit = Number(values[i+1]);
         let nextIsDigit = Number(values[i+2]);
@@ -73,13 +74,8 @@ function App() {
         }
       }
     }
-    //console.log(values, result);
     setOutput(result);
   }
-
-  /*useEffect(
-    () => console.log(input.num, input.sign, input.display), [input]
-  )*/
 
   return (
     <div id="web">
